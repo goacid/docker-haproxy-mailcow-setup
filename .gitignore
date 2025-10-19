@@ -1,0 +1,44 @@
+# Sensitive configuration files
+.env
+.env.*
+
+# Logs
+*.log
+logs/
+
+# Docker
+.docker/
+
+# Temporary and backup files
+*.tmp
+*.swp
+*.swo
+*~
+*.bak
+*.swp
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Certificates and keys (security)
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+
+# Node.js dependencies
+node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# VSCode settings
+.vscode/
+
+# Build artifacts
+dist/
+build/
+
