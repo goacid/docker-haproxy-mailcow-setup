@@ -31,3 +31,6 @@ namespace inbox {
         autoexpunge_max_mails = 100000
     }
 }
+
+# For acme SSL we need the fullchain and not the cert.pem
+ssl_cert = </etc/ssl/mail/fullchain.pem
