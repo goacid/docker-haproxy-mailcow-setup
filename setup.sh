@@ -254,6 +254,52 @@ fi
 echo ""
 
 echo ""
+echo "=== PHP-FPM OPcache Configuration ==="
+
+read -p "Do you want to copy the OPcache configuration file? [Y/n] " -r response
+if [[ "$response" =~ ^([nN][oO]|[nN])$ ]]; then
+    echo "⊙ OPcache configuration skipped"
+else
+    OPCACHE_CONF_DIR="$MAILCOW_DIR/data/conf/phpfpm/php-conf.d"
+    OPCACHE_SOURCE="./opcache-recommended.ini"
+    OPCACHE_TARGET="$OPCACHE_CONF_DIR/opcache-recommended.ini"
+    
+    # Create PHP-FPM configuration directory if necessary
+    if [ ! -d "$OPCACHE_CONF_DIR" ]; then
+        echo "  Creating PHP-FPM configuration directory..."
+        mkdir -p "$OPCACHE_CONF_DIR"
+        echo "✓ Directory created: $OPCACHE_CONF_DIR"
+    else
+        echo "✓ PHP-FPM configuration directory already exists"
+    fi
+    
+    # Check if source file exists
+    if [ ! -f "$OPCACHE_SOURCE" ]; then
+        echo "✗ Source file opcache-recommended.ini not found in setup directory"
+        echo "⚠️  Skipping OPcache configuration"
+    else
+        # Backup existing file if present
+        if [ -f "$OPCACHE_TARGET" ]; then
+            echo "  Backing up existing opcache-recommended.ini..."
+            mv "$OPCACHE_TARGET" "$OPCACHE_TARGET.backup.$(date +%Y%m%d_%H%M%S)"
+        fi
+        
+        echo "  Copying opcache-recommended.ini to $OPCACHE_TARGET..."
+        cp "$OPCACHE_SOURCE" "$OPCACHE_TARGET"
+        
+        if [ $? -eq 0 ]; then
+            echo "✓ OPcache configuration file copied successfully"
+        else
+            echo "✗ Error copying OPcache configuration"
+            echo "⚠️  Continuing despite error..."
+        fi
+    fi
+    
+    echo "OPcache configuration:"
+    echo "  File: $OPCACHE_TARGET"
+fi
+
+echo ""
 echo "=== Configuration HAProxy ==="
 
 
