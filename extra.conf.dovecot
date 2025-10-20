@@ -12,3 +12,22 @@ haproxy_trusted_networks = 127.0.0.0/8 172.22.1.0/24 fd4d:6169:6c63:6f77::/64
 # SSL/TLS security settings
 ssl_min_protocol = TLSv1.2
 ssl_cipher_list = ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-CHACHA20-POLY1305
+
+# Lazy Expunge (Dovecot Plugin)
+plugin {
+    # Copy all deleted emails to the .EXPUNGED mailbox
+    lazy_expunge = .EXPUNGED
+
+    # Exclude marked-as-deleted emails from the quota
+    quota_rule = .EXPUNGED:ignore
+}
+
+# Define the .EXPUNGED mailbox
+namespace inbox {
+    mailbox .EXPUNGED {
+        # Define how long emails will stay in this folder before they are deleted. Time is defined according to: https://doc.dovecot.org/2.3/settings/types/#time
+        autoexpunge = 21days
+        # Define how many emails can be kept in the EXPUNGED folder before it is cleared
+        autoexpunge_max_mails = 100000
+    }
+}
