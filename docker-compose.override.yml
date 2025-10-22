@@ -83,77 +83,77 @@ services:
         - acme-mailcow
 
 # Redéfinition des volumes avec un chemin personnalisé
-# Modifiez MAILCOW_DATA_PATH dans mailcow.conf pour changer le chemin de base
+# Modifiez MAILCOW_VOLUME_PATH dans mailcow.conf pour changer le chemin de base
 volumes:
   vmail-vol-1:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${MAILCOW_DATA_PATH:-/mnt/mailcow-data}/vmail
+      device: ${MAILCOW_VOLUME_PATH:-/mnt/mailcow-data}/vmail
   vmail-index-vol-1:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${MAILCOW_DATA_PATH:-/mnt/mailcow-data}/vmail-index
+      device: ${MAILCOW_VOLUME_PATH:-/mnt/mailcow-data}/vmail-index
   mysql-vol-1:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${MAILCOW_DATA_PATH:-/mnt/mailcow-data}/mysql
+      device: ${MAILCOW_VOLUME_PATH:-/mnt/mailcow-data}/mysql
   mysql-socket-vol-1:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${MAILCOW_DATA_PATH:-/mnt/mailcow-data}/mysql-socket
+      device: ${MAILCOW_VOLUME_PATH:-/mnt/mailcow-data}/mysql-socket
   redis-vol-1:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${MAILCOW_DATA_PATH:-/mnt/mailcow-data}/redis
+      device: ${MAILCOW_VOLUME_PATH:-/mnt/mailcow-data}/redis
   rspamd-vol-1:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${MAILCOW_DATA_PATH:-/mnt/mailcow-data}/rspamd
+      device: ${MAILCOW_VOLUME_PATH:-/mnt/mailcow-data}/rspamd
   postfix-vol-1:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${MAILCOW_DATA_PATH:-/mnt/mailcow-data}/postfix
+      device: ${MAILCOW_VOLUME_PATH:-/mnt/mailcow-data}/postfix
   postfix-tlspol-vol-1:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${MAILCOW_DATA_PATH:-/mnt/mailcow-data}/postfix-tlspol
+      device: ${MAILCOW_VOLUME_PATH:-/mnt/mailcow-data}/postfix-tlspol
   crypt-vol-1:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${MAILCOW_DATA_PATH:-/mnt/mailcow-data}/crypt
+      device: ${MAILCOW_VOLUME_PATH:-/mnt/mailcow-data}/crypt
   sogo-web-vol-1:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${MAILCOW_DATA_PATH:-/mnt/mailcow-data}/sogo-web
+      device: ${MAILCOW_VOLUME_PATH:-/mnt/mailcow-data}/sogo-web
   sogo-userdata-backup-vol-1:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${MAILCOW_DATA_PATH:-/mnt/mailcow-data}/sogo-userdata-backup
+      device: ${MAILCOW_VOLUME_PATH:-/mnt/mailcow-data}/sogo-userdata-backup
   clamd-db-vol-1:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ${MAILCOW_DATA_PATH:-/mnt/mailcow-data}/clamd-db
+      device: ${MAILCOW_VOLUME_PATH:-/mnt/mailcow-data}/clamd-db

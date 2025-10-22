@@ -93,16 +93,16 @@ read -p "Do you want to create the volume directories? [Y/n] " -r response
 if [[ "$response" =~ ^([nN][oO]|[nN])$ ]]; then
     echo "⊙ Directory creation skipped"
 else
-    MAILCOW_DATA_PATH="$(realpath $MAILCOW_DIR)/volumes"
-    echo "Volume path: $MAILCOW_DATA_PATH"
+    MAILCOW_VOLUME_PATH="$(realpath $MAILCOW_DIR)/volumes"
+    echo "Volume path: $MAILCOW_VOLUME_PATH"
 
-    mkdir -p "$MAILCOW_DATA_PATH"/{vmail,vmail-index,mysql,mysql-socket,redis,rspamd,postfix,postfix-tlspol,crypt,sogo-web,sogo-userdata-backup,clamd-db}
+    mkdir -p "$MAILCOW_VOLUME_PATH"/{vmail,vmail-index,mysql,mysql-socket,redis,rspamd,postfix,postfix-tlspol,crypt,sogo-web,sogo-userdata-backup,clamd-db}
 
     echo "Setting permissions..."
-    chown "$(id -u):$(id -g)" "$MAILCOW_DATA_PATH"
+    chown "$(id -u):$(id -g)" "$MAILCOW_VOLUME_PATH"
 
     echo "✓ Structure created:"
-    ls -la "$MAILCOW_DATA_PATH"
+    ls -la "$MAILCOW_VOLUME_PATH"
 fi
 
 echo ""
@@ -110,9 +110,9 @@ echo "=== Modifying generate_config.sh ==="
 
 # Define variables before prompt so they're always available
 GENERATE_CONFIG="$MAILCOW_DIR/generate_config.sh"
-MAILCOW_DATA_PATH="$(realpath $MAILCOW_DIR)/volumes"
+MAILCOW_VOLUME_PATH="./volumes"
 
-read -p "Do you want to modify generate_config.sh to add MAILCOW_DATA_PATH? [Y/n] " -r response
+read -p "Do you want to modify generate_config.sh to add MAILCOW_VOLUME_PATH? [Y/n] " -r response
 if [[ "$response" =~ ^([nN][oO]|[nN])$ ]]; then
     echo "⊙ generate_config.sh modification skipped"
 else
@@ -124,20 +124,20 @@ else
         cp "$GENERATE_CONFIG" "$GENERATE_CONFIG.backup"
         echo "✓ Backup created: generate_config.sh.backup"
 
-        # Check if MAILCOW_DATA_PATH is already present
-        if grep -q "^MAILCOW_DATA_PATH=" "$GENERATE_CONFIG"; then
-            echo "⚠️  MAILCOW_DATA_PATH already present in generate_config.sh"
+        # Check if MAILCOW_VOLUME_PATH is already present
+        if grep -q "^MAILCOW_VOLUME_PATH=" "$GENERATE_CONFIG"; then
+            echo "⚠️  MAILCOW_VOLUME_PATH already present in generate_config.sh"
         else
-            # Add MAILCOW_DATA_PATH right after MAILCOW_HOSTNAME=
+            # Add MAILCOW_VOLUME_PATH right after MAILCOW_HOSTNAME=
             sed -i "/^MAILCOW_HOSTNAME=\${MAILCOW_HOSTNAME}/a\\
 \\
 # ------------------------------\\
 # Custom data path for volumes\\
 # ------------------------------\\
 # Path where all Docker volumes will be stored\\
-MAILCOW_DATA_PATH=$MAILCOW_DATA_PATH" "$GENERATE_CONFIG"
+MAILCOW_VOLUME_PATH=$MAILCOW_VOLUME_PATH" "$GENERATE_CONFIG"
             
-            echo "✓ MAILCOW_DATA_PATH added to generate_config.sh"
+            echo "✓ MAILCOW_VOLUME_PATH added to generate_config.sh"
         fi
     fi
 fi
